@@ -21,7 +21,7 @@ namespace FlaqAPI.Controllers
         [HttpGet, Route("{id:int:range(1000,3000)}")]
         public string Get(int id)
         {
-            return "palue";
+            return "palue1";
         }
 
         // POST: api/Products
