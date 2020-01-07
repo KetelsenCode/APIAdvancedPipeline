@@ -10,6 +10,24 @@ namespace FlaqAPI.Controllers
     [RoutePrefix("products")]
     public class ProductsController : ApiController
     {
+        public enum Widgets
+        {
+            Bolt,
+            Screw,
+            Nut,
+            Motor
+        }
+      /*[HttpGet, Route("widget/{number:onlynumber}")]
+        public string OnlyNumbers(string number)
+        {
+            return number.ToString();
+        }*/
+
+        [HttpGet, Route("widget/{widget:enum(FlaqAPI.Controllers.ProductsController+Widgets)}")]
+        public string GetProductsWithWidget(string widget)
+        {
+            return "widget-" + widget;
+        }
         // GET: api/Products
         [HttpGet,Route("")]
         public IEnumerable<string> Get()
