@@ -100,6 +100,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\ApiKeyHeaderHandler.cs" />
+    <Compile Include="Handlers\ForwardedHeaderHandler.cs" />
+    <Compile Include="Handlers\FullPipelineTimerHandler.cs" />
+    <Compile Include="Models\ComplexDTO.cs" />
+    <Compile Include="Models\StringArrayWildcardBinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\EnumerationConstraint.cs" />
     <Compile Include="Routing\OnlyNumbersConstraint.cs" />
@@ -115,7 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

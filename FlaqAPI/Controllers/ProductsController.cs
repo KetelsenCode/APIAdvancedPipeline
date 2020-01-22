@@ -17,11 +17,11 @@ namespace FlaqAPI.Controllers
             Nut,
             Motor
         }
-      /*[HttpGet, Route("widget/{number:onlynumber}")]
-        public string OnlyNumbers(string number)
-        {
-            return number.ToString();
-        }*/
+        /*[HttpGet, Route("widget/{number:onlynumber}")]
+          public string OnlyNumbers(string number)
+          {
+              return number.ToString();
+          }*/
 
         [HttpGet, Route("widget/{widget:enum(FlaqAPI.Controllers.ProductsController+Widgets)}")]
         public string GetProductsWithWidget(string widget)
@@ -29,14 +29,16 @@ namespace FlaqAPI.Controllers
             return "widget-" + widget;
         }
         // GET: api/Products
-        [HttpGet,Route("")]
+        [HttpGet, Route("widget/{testint:onlynumber}")]
         public IEnumerable<string> Get()
         {
             return new string[] { "palue1", "palue2" };
         }
 
         // GET: api/Products/5
-        [HttpGet, Route("{id:int:range(1000,3000)}")]
+        [HttpGet, Route("{id:int:range(1000,3000)}", Name = "GetById")]
+        //Tilde overrides the routeprefix
+        [Route("~/prods/{id:int:range(1000,3000)}")]
         public string Get(int id)
         {
             return "palue1";
@@ -44,8 +46,21 @@ namespace FlaqAPI.Controllers
 
         // POST: api/Products
         [HttpPost, Route("")]
-        public void Post([FromBody]string value)
+        public void CreateProduct([FromBody]string value)
         {
+        }
+
+        [HttpPost, Route("{status:alpha=pending}/{prodId:int:range(1000,3000)?}")]
+        public HttpResponseMessage CreateProduct([FromUri]string status, int prodId = 5)
+        {
+            //logic first
+
+            var response = Request.CreateResponse(HttpStatusCode.Created);
+
+            //self-refering link
+            string uri = Url.Link("GetById", new { id = prodId });
+            response.Headers.Location = new Uri(uri);
+            return response; 
         }
 
         // PUT: api/Products/5

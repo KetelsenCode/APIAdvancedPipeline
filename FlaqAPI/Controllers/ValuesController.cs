@@ -1,9 +1,12 @@
-﻿using System;
+﻿using FlaqAPI.Handlers;
+using FlaqAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
 
 namespace FlaqAPI.Controllers
 {
@@ -11,16 +14,45 @@ namespace FlaqAPI.Controllers
     public class ValuesController : ApiController
     {
         // GET: api/Values
-        [HttpGet, Route("")]
+        /*[HttpGet, Route("")]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
-        }
+            return new string[] { "value1", "value2", Request.GetApiKey() };
+        }*/
 
         // GET: api/Values/5
-        public string Get(int id)
+        [HttpGet, Route("{id:int}", Name = "TestForwarded")]
+        public int Get(int id)
         {
-            return "value";
+            return id;
+        }
+
+        // GET: api/values/complex/?String1=test1&String2=test2&Int1=1&Int2=7
+        [HttpGet, Route("forwarded")]
+        public IEnumerable<string> Get()
+        {
+            var getTestForwardedUrl = Url.Link("TestForwarded", new { id = 16 });
+
+            return new string[] {
+                getTestForwardedUrl,
+                Request.GetSelfReferenceBaseUrl().ToString(),
+                Request.RebaseUrlForClient(new Uri(getTestForwardedUrl)).ToString()
+            };
+        }
+
+        // GET: api/values/complex/?String1=test1&String2=test2&Int1=1&Int2=7
+        [HttpGet, Route("complex", Name = "ComplexRoute")]
+        public IHttpActionResult Get([FromUri]ComplexDTO dto)
+        {
+            
+            return Json(dto);
+        }
+
+        [HttpGet, Route("segments/{*array:MaxLength(256)}")]
+        public string[] Get([ModelBinder(typeof(StringArrayWildcardBinder))] string[] array)
+        {
+
+            return array;
         }
 
         // POST: api/Values
