@@ -1,7 +1,9 @@
-﻿using FlaqAPI.Handlers;
+﻿using FlaqAPI.Actionfilters;
+using FlaqAPI.Handlers;
 using FlaqAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,7 +16,7 @@ namespace FlaqAPI.Controllers
     public class ValuesController : ApiController
     {
         // GET: api/Values
-        /*[HttpGet, Route("")]
+        /*[HttpGet, Route("")] 
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2", Request.GetApiKey() };
@@ -22,8 +24,11 @@ namespace FlaqAPI.Controllers
 
         // GET: api/Values/5
         [HttpGet, Route("{id:int}", Name = "TestForwarded")]
+        [RouteTimerFilter("getanid")]
+        [ClientCacheControlActionFilter(ClientCacheControl.Private, 10)]
         public int Get(int id)
         {
+            Trace.WriteLine(DateTime.Now.ToLongTimeString() + " got called");
             return id;
         }
 

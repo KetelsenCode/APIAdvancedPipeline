@@ -20,7 +20,7 @@ namespace FlaqAPI.Handlers
     /// </remarks>
     public class FullPipelineTimerHandler : DelegatingHandler
     {
-        const string _header = "X-API-Timer";
+        const string _header = "X-API-Timer-DelegatingHandler";
         protected override async Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request, CancellationToken cancellationToken)
         {
