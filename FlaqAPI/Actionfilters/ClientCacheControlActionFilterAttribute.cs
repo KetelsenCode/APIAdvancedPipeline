@@ -42,7 +42,6 @@ namespace FlaqAPI.Actionfilters
         {
             // STEP 2: Call the rest of the action filter chain
             await base.OnActionExecutedAsync(actionExecutedContext, cancellationToken);
-
             // STEP 3: Any logic you want to do AFTER the other action filters, and AFTER
             //         the action method itself is called.
             if (CacheType == ClientCacheControl.NoCache)
